@@ -12,9 +12,13 @@ var sessionController = require('../controllers/session_controller');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+	res.render('index');
 });
 
+/* GET author page. */
+router.get("/author", function(req, res, next) {
+	res.render("author");
+});
 
 // Autoload de parametros
 router.param('quizId', quizController.load);  // autoload :quizId
@@ -43,7 +47,7 @@ router.delete('/users/:userId(\\d+)',   sessionController.loginRequired,
 										sessionController.adminAndNotMyselfRequired, 
 										userController.destroy);  // borrar cuenta
 
-// Definición de rutas de /quizzes
+// Definición de rutas de quizzes
 router.get('/quizzes',                     	quizController.index);
 router.get('/quizzes/:quizId(\\d+)',       	quizController.show);
 router.get('/quizzes/:quizId(\\d+)/check', 	quizController.check);
@@ -72,5 +76,6 @@ router.put('/quizzes/:quizId(\\d+)/comments/:commentId(\\d+)/accept',
 	                                               sessionController.loginRequired, 
 	                                               quizController.ownershipRequired, 
 	                                               commentController.accept);
+
 
 module.exports = router;

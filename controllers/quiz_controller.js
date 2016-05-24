@@ -42,7 +42,12 @@ exports.ownershipRequired = function(req, res, next){
 
 // GET /quizzes
 exports.index = function(req, res, next) {
-	models.Quiz.findAll({ include: [ models.Attachment ] })
+  var search = req.query.search || "";
+  search = search.replace(" ","%");//.replace("+","%");
+	models.Quiz.findAll({
+              where: {question: {$like: "%" + search + "%"}},
+              include: [ {model: models.Attachment}]
+            })
 		.then(function(quizzes) {
 			res.render('quizzes/index.ejs', { quizzes: quizzes});
 		})

@@ -9,6 +9,8 @@ var commentController = require('../controllers/comment_controller');
 var userController = require('../controllers/user_controller');
 var sessionController = require('../controllers/session_controller');
 
+var path = require("path");
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,6 +20,16 @@ router.get('/', function(req, res, next) {
 /* GET author page. */
 router.get("/author", function(req, res, next) {
 	res.render("author");
+});
+
+/* GET license page. */
+router.get("/license", function(req, res, next) {
+	res.sendFile(path.join(__dirname, '..', 'LICENSE.txt'));
+});
+
+/* GET readme page. */
+router.get("/readme", function(req, res, next) {
+	res.sendFile(path.join(__dirname, '..', 'README.md'));
 });
 
 // Autoload de parametros

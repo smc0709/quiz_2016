@@ -4,7 +4,14 @@
 <p>
   <form method="get" action="/quizzes/<%= quiz.id %>/check">
     <p>
+      <% if (quiz.Attachment) { %>
+        (escrita por <%= quiz.Author.username %>)
+      <% } else { %>
+        (escrita por Anónimo)
+      <% } %>
+      <br><br>
       <%= quiz.question %>
+      <br><br>
     </p>
 
     <% if (quiz.Attachment) { %>
@@ -13,6 +20,8 @@
       <img src="/imgs/question.png" width="50px" />
     <% } %> 
 
+    <br><br>
+
     <p>
       <input type="text" name="answer" value="<%= answer %>" placeholder="Respuesta" />
       <input type="submit" value="Comprobar">
@@ -20,7 +29,11 @@
   </form>
 </p>
 
+<br><br>
+
 <h2>Comentarios</h2>
+
+<br><br>
 
 <% if (session.user) { %>
   <p>
@@ -32,17 +45,29 @@
   <% for (var i in quiz.Comments) { 
        var comment = quiz.Comments[i];
        if (comment.accepted) { %>
-
-           <li> <%= comment.text %> </li>
+          <li><%= comment.createdAt %>
+              <br>
+              <b><%= comment.Author.username %> </b> escribió:
+              <br>
+              <%= comment.text %>
+          </li>
+          <br>
 
        <% } else if (session.user && 
                      (session.user.isAdmin || (quiz.AuthorId === session.user.id))) { %>
 
-           <li> <%= comment.text %> </li>
+          <br><br><br>
+          <li><%= comment.createdAt %>
+              <br>
+              <b><%= comment.Author.username %> </b> quiere hacer un comentario:
+              <br>
+              <%= comment.text %>
+          </li>
+          <br>
 
-           <a href="/quizzes/<%= quiz.id %>/comments/<%= comment.id %>/accept?_method=PUT">
+          <a href="/quizzes/<%= quiz.id %>/comments/<%= comment.id %>/accept?_method=PUT">
               <button>Aceptar</button>
-           </a>
+          </a>
        <% } %>
   <% } %>
 </ul>

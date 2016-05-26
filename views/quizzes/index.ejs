@@ -4,8 +4,10 @@
    <input type="submit" value="Buscar">
 </form>
 
+<br>
+
 <table>
-  <% for (var i in quizzes) { %>        
+  <% for (var i in quizzes) { %>
      <tr>
         <td>
           <% if (quizzes[i].Attachment) { %>
@@ -32,7 +34,18 @@
                  </a>
               </td>
 
-           <% } %>          
+           <% }else{ %>
+              <td><p></p></td>
+              <td><p></p></td>
+            <% } %>          
+        <% } %>
+
+        <% for(var j in users) { %>
+          <% if(users[j].id === quizzes[i].AuthorId) { %>
+            <td>
+              <p>&nbsp;&nbsp;&nbsp;(pregunta de <%= users[j].username %>)</p>
+            </td>
+          <% } %>
         <% } %>
 
      </tr> 
